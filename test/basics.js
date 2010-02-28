@@ -1,4 +1,8 @@
 window.onload = function(){
+  function $id(id, context) {
+    return document.getElementById(id, context);
+  }
+
   module("Simple values");
 
   test("Simple set and get test", function(){
@@ -8,20 +12,22 @@ window.onload = function(){
 	 same(EasyData.Cookies.get("second"), "foo", "string values are also the same");
        });
 
+  module("Serialized values");
+
   test("Serialized data test", function(){
 	 EasyData.Cookies.set("third", {first: "one", second: "two"}, true);
 	 same(EasyData.Cookies.get("third", true).first, "one");
        });
 
   test("Persistance test", function(){
-	 document.getElementById("persistance-form").onsubmit = function(){
-	   var name = document.getElementById("name").value;
+	 $id("persistance-form").onsubmit = function(){
+	   var name = $id("name").value;
 	   EasyData.Cookies.set("user-data", {name: name, when: new Date()}, true);
 	 };
 	 var lastSubmit = EasyData.Cookies.get("user-data", true);
 	 if (lastSubmit) {
 	   ok(true, "got your name, " + lastSubmit.name + ", on " + lastSubmit.when);
-	   var span = document.getElementById("last-submit").innerHTML = "Tests updated, see test #3";
+	   var span = $id("last-submit").innerHTML = "Tests updated, see test #3";
 	 }
        });
 };
